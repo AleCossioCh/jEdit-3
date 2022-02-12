@@ -1,0 +1,380 @@
+jEdit 4.5 version history
+       (changes since jEdit 4.4)
+:encoding=UTF-8:
+
+{{{ Version 4.5pre1
+
+Thanks to Björn "Vampire" Kautler, Matthieu Casanova, Alan Ezust, cy6erGn0m,
+Bad Sector, jclopes, Dale Anson, Anshal Shukla, Ryan Mott, Damien Radtke,
+Matthew Gilbert, Dennis Hotson, Kevin Hunter, encorejane, nherzing,
+Shlomy Reinstein and Marcelo Vanzin for contributing to this release.
+
+{{{ Bug fixes
+- Collapsing all folds will move the caret outside any fold if necessary
+  (Matthieu Casanova)
+
+- When macros are reloaded, if one of them was overriding a built-in action,
+  the action is not restored if the overriding macro is removed
+  (#3110689 - Matthieu Casanova)
+
+- Shortcuts option pane was showing shortcuts twice when an action was
+  overridden by a macro or a plugin (Matthieu Casanova)
+
+- Made jedit.exe to find JDK, so that jEdit runs only with JDK (without
+  JRE) like 4.3.x and before. (SF.net bug #3134149 - Kazutoshi Satoda)
+
+- Got rid of extra Component created as parent of every JToolBar in
+  GuiUtilities.loadToolBar() (#2114751-Alan Ezust)
+
+- Fix for tracker 3134215, restore previously opened files setting not being
+  considered when restoring split configuration. (#3134215 - Dale Anson)
+
+- After using save-as action on a read-only buffer the new buffer is no longer
+  read-only (#3148102 - Matthieu Casanova)
+
+- Applied patch from Ryan Mott that fixes textarea scrolling left
+  automatically when selecting text at the end of a long line and trying to
+  scroll down if next lines are shorter. (#2841162, Matthieu Casanova)
+
+- Applied suggestion from bug 3160310 to correctly set permissions on
+  symlinked files (Marcelo Vanzin)
+
+- When the cursor was at a start (or end) of non-top (non-bottom) line,
+  Find Next (Previous) for a non-empty regex starting with "^" (ending
+  with "$") wrongly skipped the occurrence at the cursor.
+  (SF.net bug #2953604 - Kazutoshi Satoda)
+
+- Corrected a wrong specifications (javadoc comments) of
+  SearchMatcher#nextMatch(). (SF.net bug #2953604 - Kazutoshi Satoda)
+
+- Fixed an exception that occurs when opening jEdit from command line
+  with some files to open as argument if a jEdit server is running
+  (#3173669 - Matthieu Casanova)
+}}}
+{{{ API Changes
+
+- New method TextArea.getVisibleLineText(screenLine) and
+  TextArea.getVisibleLineSegment() that returns
+  the visible part of the given line (Matthieu Casanova)
+
+- API made public:
+  org.gjt.sp.jedit.browser.VFSFileNameField (Marcelo Vanzin)
+
+- API made private:
+  FileVFS.modified
+  (Matthieu Casanova)
+
+- Removed Deprecated apis :
+  EditPlugin.createMenuItems(Vector menuItems)
+  EditPlugin.createOptionPanes(OptionsDialog optionsDialog)
+  HistoryModel.clear()
+  JEditTextArea.getSelectionStart()
+  JEditTextArea.getSelectionStart(int line)
+  JEditTextArea.getSelectionStartLine()
+  JEditTextArea.setSelectionStart(int selectionStart)
+  JEditTextArea.getSelectionEnd()
+  JEditTextArea.getSelectionEnd(int line)
+  JEditTextArea.getSelectionEndLine()
+  JEditTextArea.setSelectionEnd(int selectionEnd)
+  JEditTextArea.select(int start, int end)
+  JEditTextArea.select(int start, int end, boolean doElectricScroll)
+  JEditTextArea.isSelectionRectangular()
+  TextAreaPainter.setAntiAliasEnabled(boolean isEnabled)
+  TextAreaPainter.isAntiAliasEnabled()
+  FoldHandler.SERVICE
+  Buffer.addBufferChangeListener(BufferChangeListener listener, int priority)
+  Buffer.putProperty(Object name, Object value)
+  Buffer.putBooleanProperty(String name, boolean value)
+  Buffer.markTokens(int lineIndex)
+  Buffer.TokenList
+  Buffer.getMarkersPath(VFS vfs)
+  Buffer.insertString(int offset, String str, AttributeSet attr)
+  Buffer.editSyntaxStyle(JEditTextArea textArea)
+  Buffer.addBufferChangeListener(BufferChangeListener listener)
+  Buffer.removeBufferChangeListener(BufferChangeListener listener)
+  Buffer.addBufferChangeListener(BufferChangeListener listener)
+  BufferChangeAdapter
+  BufferChangeListener
+  BufferIORequest.GZIP_MAGIC_1
+  BufferIORequest.GZIP_MAGIC_2
+  BufferIORequest.UTF8_MAGIC_1
+  BufferIORequest.UTF8_MAGIC_2
+  BufferIORequest.UTF8_MAGIC_3
+  BufferIORequest.UNICODE_MAGIC_1
+  BufferIORequest.UNICODE_MAGIC_2
+  BufferIORequest.XML_PI_LENGTH
+  JEditBuffer.indentLine(int lineIndex,
+                         boolean canIncreaseIndent,
+                         boolean canDecreaseIndent)
+  JEditBuffer.isElectricKey(char ch)
+  MiscUtilities.UTF_8_Y
+  MiscUtilities.getFileParent(String path)
+  MiscUtilities.getFileProtocol(String url)
+  MiscUtilities.moveFile(File source, File dest)
+  MiscUtilities.compareVersions(String v1, String v2)
+  MiscUtilities.quicksort(Object[] obj, Comparator compare)
+  MiscUtilities.quicksort(List list, Comparator compare)
+  MiscUtilities.copyStream(int bufferSize,
+                           ProgressObserver progress,
+                           InputStream in,
+                           OutputStream out,
+                           boolean canStop)
+  MiscUtilities.copyStream(ProgressObserver progress,
+                           InputStream in,
+                           OutputStream out,
+                           boolean canStop)
+  MiscUtilities.isBinary(Reader reader)
+  MiscUtilities.closeQuietly(InputStream in)
+  MiscUtilities.closeQuietly(OutputStream out)
+  MiscUtilities.createWhiteSpace(int len, int tabSize)
+  MiscUtilities.getLeadingWhiteSpaceWidth(String str, int tabSize)
+  MiscUtilities.getColorHexString(Color c)
+  Chunk.init(Segment seg,
+             TabExpander expander,
+             float x,
+             FontRenderContext fontRenderContext)
+  DisplayTokenHandler.init(SyntaxStyle[] styles,
+                           FontRenderContext fontRenderContext,
+                           TabExpander expander,
+                           List<Chunk> out,
+                           float wrapMargin)
+  DisplayTokenHandler.initChunk(Chunk chunk, Segment seg)
+  ParserRuleSet.getRules(char ch)
+  ParserRule.EXCLUDE_MATCH
+  ParserRule.NO_ESCAPE
+  ParserRule.next
+  ParserRule.createRegexpSequenceRule(char hashChar,
+                                      int posMatch,
+                                      String seq,
+                                      ParserRuleSet delegate,
+                                      byte id,
+                                      boolean ignoreCase)
+  ParserRule.createRegexpEOLSpanRule(char hashChar,
+                                     int posMatch,
+                                     String seq,
+                                     ParserRuleSet delegate,
+                                     byte id,
+                                     byte matchType,
+                                     boolean ignoreCase)
+  PluginManagerProgress.setValue(int value)
+  BracketIndentRule.getBrackets(String line)
+  CloseBracketIndentRule.isMatch(String line)
+  RegexpIndentRule.isMatch(String line)
+  DockableLayout.setAlternateLayout()
+  GrabKeyDialog.toString(KeyEvent evt)
+  InputHandler.readNextChar(String code)
+  KeyEventTranslator.translateKeyEvent2(KeyEvent evt)
+  KeyEventTranslator.Key.isPhantom()
+  VFSBrowser.getFilenameFilter()
+  View.ABOVE_ACTION_BAR_LAYER
+  View.processKeyEvent(KeyEvent evt, int from, boolean global)
+  OperatingSystem.hasJava14()
+  OperatingSystem.hasJava15()
+  GUIUtilities.centerOnScreen(Window win)
+  GUIUtilities.loadStyles(String family, int size)
+  GUIUtilities.loadStyles(String family, int size, boolean color)
+  GUIUtilities.parseStyle(String str, String family, int size, boolean color)
+  GUIUtilities.parseColor(String name, Color defaultColor)
+  GUIUtilities.getColorHexString(Color c)
+  GUIUtilities.NEW_BUFFER_ICON
+  GUIUtilities.DIRTY_BUFFER_ICON
+  GUIUtilities.READ_ONLY_BUFFER_ICON
+  GUIUtilities.NORMAL_BUFFER_ICON
+  GUIUtilities.WINDOW_ICON
+  BeanShell.runScript(View view,
+                      String path,
+                      Reader in,
+                      boolean ownNamespace,
+                      boolean rethrowBshErrors)
+  BeanShell.eval(View view,
+                 NameSpace namespace,
+                 String command,
+                 boolean rethrowBshErrors)
+  EditAction.getView(Component comp)
+  EditBus.getComponents()
+  JarClassLoader.getZipFile()
+  MiscUtilities.charsToEscapes(String str)
+  MiscUtilities.charsToEscapes(String str, String toEscape)
+  MiscUtilities.compareStrings(String str1, String str2, boolean ignoreCase)
+  MiscUtilities.StringCompare
+  MiscUtilities.StringICaseCompare
+  MiscUtilities.getLeadingWhiteSpace(String str)
+  MiscUtilities.getTrailingWhiteSpace(String str)
+  MiscUtilities.getVirtualWidth(Segment seg, int tabSize)
+  MiscUtilities.getOffsetOfVirtualColumn(Segment seg,
+                                         int tabSize,
+                                         int column,
+                                         int[] totalVirtualWidth)
+  MiscUtilities.createWhiteSpace(int len, int tabSize, int start)
+  MiscUtilities.globToRE(String glob)
+  MiscUtilities.quicksort(Vector vector, Compare compare)
+  MiscUtilities.quicksort(Vector vector, Comparator compare)
+  MiscUtilities.quicksort(Object[] obj, Compare compare)
+  MiscUtilities.Compare
+  MiscUtilities.MenuItemCompare
+  MiscUtilities.getEncodings()
+  MiscUtilities.parseXML(InputStream in, DefaultHandler handler)
+  MiscUtilities.findEntity(String systemId, String test, Class where)
+  MiscUtilities.charsToEntities(String str)
+  MiscUtilities.stringsEqual(String s1, String s2)
+  MiscUtilities.objectsEqual(Object o1, Object o2)
+  MiscUtilities.KB_FORMAT
+  MiscUtilities.MB_FORMAT
+  MiscUtilities.formatFileSize(long length)
+  SegmentCharSequence.SegmentCharSequence(Segment seg, boolean reverse)
+  PluginJar.getActions()
+  Registers.StringRegister
+  jEdit.getActionSetForAction(EditAction action)
+  jEdit.getActions()
+  jEdit.openFile(View view,
+                 String parent,
+                 String path,
+                 boolean readOnly,
+                 boolean newFile)
+  jEdit.openFile(View view,
+                 String parent,
+                 String path,
+                 boolean readOnly,
+                 boolean newFile,
+                 Hashtable props)
+  jEdit.createTextArea()
+  TextArea.getMarkLine()
+  VFS.DirectoryEntry
+  VFS.VFS(String name)
+  VFS.showBrowseDialog(Object[] session, Component comp)
+  VFS._listDirectory(Object session, String directory, Component comp)
+  VFS._getDirectoryEntry(Object session, String path, Component comp)
+  VFSManager.getVFSByName(String name)
+  VFSManager.registerVFS(String protocol, VFS vfs)
+  VFSManager.error(final Component comp,
+                   final String error,
+                   final Object[] args)
+  VFSManager.getFilesystems()
+  VFSFile.name
+  VFSFile.path
+  VFSFile.symlinkPath
+  VFSFile.deletePath
+  VFSFile.type
+  VFSFile.length
+  VFSFile.hidden
+  VFSFile.canRead
+  VFSFile.canWrite
+  ReadWriteLock
+  (Matthieu Casanova)
+
+- Applied patch #2809978 to remove use of deprecated methods in jEdit's
+  textarea (#2809978 from Kevin Hunter, Matthieu Casanova)
+}}}
+{{{ Editing
+- Added new keywords to C# edit mode (patch #3120746 from nherzing,
+  Matthieu Casanova)
+
+- Consider full path when using file name glob in edit mode decisions.
+  (#2557712 - Alan Ezust)
+
+- New edit mode option: Elastic Tabstops. (Anshal Shukla + Shlomy Reinstein)
+
+- Applied patch from Matthew Gilbert to add ability to increase/decrease line
+  spacing in the text area. (#3023134, Dale Anson)
+
+- Added jflex edit mode (Matthieu Casanova)
+
+- Haxe mode update (Dion Amago # 3123602)
+
+- Updated erlang mode and associated *.hrl to erlang language
+  (patch #3042398 from jclopes, Matthieu Casanova)
+
+- Added coffee edit mode (patch #3173375 from Dennis Hotson, Matthieu Casanova)
+
+}}}
+{{{ UI
+- The Macros menu can now be splitted if there are too many macros or
+  macro folders (#3172647 - Matthieu Casanova)
+
+- Updated ColorWellButton to use the dialog provided by JColorChooser rather
+  than creating its own dialog since the JColorChooser dialog is much richer.
+  (Dale Anson)
+
+- Filter field in PluginManager InstallPanel (#2810926 - Olivier Chafik)
+
+- New View option: Floatable toolbars. (Alan Ezust)
+
+- New TextArea Option: Choice of color ordering w/ subpixel antialiasing.
+  (#2989209 - Alan Ezust)
+
+- New mode for Oracle PL/SQL 11. (#3078863 - Diogo Kollross)
+
+- Factor Mode fix (#3100731 - Valeri Mytinski)
+
+- In conjunction with the fix for tracker 3134215, added a new option to the
+  General options pane to let the user choose whether to restore the split
+  configuration. (Dale Anson)
+
+}}}
+{{{ Miscellaneous
+- Dynamic softwrap. Now the softwrap margin is the minimum of the buffer wrap
+  guide and the max length displayable in the TextArea (patch #2846458 from
+  Suraj Kurapati, Matthieu Casanova)
+
+- Added an option to search for entire words (patch #2842461 from encorejane,
+  Matthieu Casanova)
+
+- Included the Windows launcher in the Java installer (Björn "Vampire" Kautler)
+
+- Made our documentation build on FOP 0.93+, 0.20.5 is no longer supported by
+  our files (Björn "Vampire" Kautler)
+
+- Made the Windows installer buildable completely via wine on non-Windows
+  systems (Björn "Vampire" Kautler)
+
+- Removed the BAT launcher in the Windows installer in favor of the EXE
+  launcher (Björn "Vampire" Kautler)
+
+- Fixed the settings for building the Windows launcher (Björn "Vampire" Kautler)
+
+- Made the Deb Ant task compatible to Ant 1.8+ (Björn "Vampire" Kautler)
+
+- Replaced the links to Java 5 documentation with links to Java 6 documentation
+  (Björn "Vampire" Kautler)
+
+- Fixed the build.xml which was for the Windows installer only working if
+  completely run on Windows, making "ant dist-win" on another system and then
+  using "ant dist-win-finish" was broken (Björn "Vampire" Kautler)
+
+- Made the Windows launcher buildable on any system (Björn "Vampire" Kautler)
+
+- README.SRC.txt cleanup (Björn "Vampire" Kautler)
+
+- Made the Windows installer correctly show special characters like german
+  umlauts (Björn "Vampire" Kautler)
+
+- Made the filter tasks use UTF-8 encoding as all our files are UTF-8 encoded
+  (Björn "Vampire" Kautler)
+
+- build files and properties cleanup (Björn "Vampire" Kautler)
+
+- Fixed various indentation errors (Björn "Vampire" Kautler)
+
+- Added a new menu item "New Macro" in Macros menu
+  (patch #2983607 from Damien Radtke, Matthieu Casanova)
+
+- In search and replace when replacing by a BeanShell snippet, it is now
+  possible to use multiple statements instead of only one statement. To do
+  that, enclose your code in braces
+  (patch #3002207 from cy6erGn0m, Matthieu Casanova)
+
+- Added a command line option "-nosplash" to avoid the splash screen
+  (Shlomy Reinstein).
+
+- Minor optimization of TextAreaTransferHandler.canImport() method that
+  is called when dragging things on the textArea (Matthieu Casanova)
+
+- jEdit now force drops from external applications to be COPY and not
+  MOVE drops. It prevents ftp explorer from deleting dropped files
+  (#1208598 - Matthieu Casanova)
+}}}
+
+}}}
+
+jEdit buffer local properties:
+:folding=explicit:collapseFolds=2:

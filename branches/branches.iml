@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/4.3.x" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/4.3.x-fix-view-leak" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/4.3.x-merge-request-2980833" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/4.4.x" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/4.4.x-merge-request-for-r18847-r18954-r19206-r19210" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/4.4.x-merge-request-for-r19197" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/4.4.x-merge-request-for-r19201" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/concurrency" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/jedit43_nostrings" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lp_clone_test" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/new_bufferset_api" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/plugin_packages" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="before-fast-scroll" />
+    <orderEntry type="module" module-name="jedit-4-1-pre7" />
+    <orderEntry type="module" module-name="jedit-4-2-pre11" />
+    <orderEntry type="module" module-name="before_bsh-2-0b4" />
+    <orderEntry type="module" module-name="jedit-4-3-pre2" />
+    <orderEntry type="module" module-name="jedit-4-3-pre7" />
+    <orderEntry type="module" module-name="macos-2_0_4" />
+    <orderEntry type="module" module-name="jedit-4-3-pre4" />
+    <orderEntry type="module" module-name="jedit-4-3-pre13" />
+    <orderEntry type="module" module-name="jedit-4-3-pre8" />
+    <orderEntry type="module" module-name="before-selection-manager" />
+    <orderEntry type="module" module-name="jedit-4-3-pre3" />
+    <orderEntry type="module" module-name="jedit-4-2-pre13" />
+    <orderEntry type="module" module-name="jedit-4-3-pre1" />
+    <orderEntry type="module" module-name="jedit-4-2-pre3" />
+    <orderEntry type="module" module-name="jedit-4-2-pre7" />
+    <orderEntry type="module" module-name="jedit-4-3-pre11" />
+    <orderEntry type="module" module-name="jedit-4-2-pre9" />
+    <orderEntry type="module" module-name="macos-2_0_3" />
+    <orderEntry type="module" module-name="jedit-4-1-final" />
+    <orderEntry type="module" module-name="jedit-4-3-pre15" />
+    <orderEntry type="module" module-name="concurrency" />
+    <orderEntry type="module" module-name="jedit-4-3-pre10" />
+    <orderEntry type="module" module-name="jedit-4-2-pre10" />
+    <orderEntry type="module" module-name="jedit-4-2-pre1" />
+    <orderEntry type="module" module-name="jedit-4-2-pre8" />
+    <orderEntry type="module" module-name="jedit-4-2-pre5" />
+    <orderEntry type="module" module-name="jedit-4-2-pre15" />
+    <orderEntry type="module" module-name="jedit-4-1-pre6" />
+    <orderEntry type="module" module-name="jedit-4-2-pre14" />
+    <orderEntry type="module" module-name="jedit-4-2-pre6" />
+    <orderEntry type="module" module-name="jedit-4-2-pre4" />
+    <orderEntry type="module" module-name="jedit-4-3-pre5" />
+    <orderEntry type="module" module-name="jedit-4-3-pre9" />
+    <orderEntry type="module" module-name="jedit-4-1-pre10" />
+    <orderEntry type="module" module-name="before-screen-line-refactoring" />
+    <orderEntry type="module" module-name="jedit-4-3-pre12" />
+    <orderEntry type="module" module-name="jedit-4-2-pre2" />
+    <orderEntry type="module" module-name="after_bsh-2-0b4" />
+    <orderEntry type="module" module-name="jedit_43_with_gnuregexp_microstarxml" />
+    <orderEntry type="module" module-name="jedit-4-1-pre9" />
+    <orderEntry type="module" module-name="jedit-4-1-pre11" />
+    <orderEntry type="module" module-name="jedit-4-3-pre16" />
+    <orderEntry type="module" module-name="jedit-4-2-pre12" />
+    <orderEntry type="module" module-name="jedit-4-3-pre6" />
+    <orderEntry type="module" module-name="jedit43_nostrings" />
+    <orderEntry type="module" module-name="jedit-4-2-final" />
+    <orderEntry type="module" module-name="jedit-4-1-pre8" />
+    <orderEntry type="module" module-name="jedit-4-3-pre14" />
+  </component>
+</module>
