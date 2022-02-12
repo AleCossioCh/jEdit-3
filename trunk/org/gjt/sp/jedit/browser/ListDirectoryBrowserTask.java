@@ -44,22 +44,59 @@ class ListDirectoryBrowserTask extends AbstractBrowserTask
 	 * Creates a new browser I/O request.
 	 * @param browser The VFS browser instance
 	 * @param path1 The first path name to operate on
-	 * @param path2 The second path name to operate on
 	 * @param loadInfo A two-element array filled out by the request;
 	 * element 1 is the canonical path, element 2 is the file list.
 	 */
 	ListDirectoryBrowserTask(VFSBrowser browser,
-		Object session, VFS vfs, String path1, String path2,
+		Object session, VFS vfs, String path1,
 		Object[] loadInfo, Runnable awtRunnable)
 	{
-		super(browser, session, vfs, path1, path2, loadInfo, awtRunnable);
-	} //}}}
+		super(browser, session, vfs, path1, null, loadInfo, awtRunnable);
+	}
 
-	//{{{ run() method
+	@Override
 	public void _run()
 	{
-		listDirectory();
-	} //}}}
+		String[] args = { path1 };
+		setStatus(Editor.getProperty("vfs.status.listing-directory",args));
+
+		String canonPath = path1;
+
+		VFSFile[] directory = null;
+		try
+		{
+			setCancellable(true);
+
+			canonPath = vfs._canonPath(session,path1,browser);
+			directory = vfs._listFiles(session,canonPath,browser);
+		}
+		catch(IOException io)
+		{
+			setCancellable(false);
+			Log.log(Log.ERROR,this,io);
+			String[] pp = { io.toString() };
+			VFSManager.error(browser,path1,"ioerror.directory-error",pp);
+		}
+		finally
+		{
+			try
+			{
+				vfs._endVFSSession(session,browser);
+			}
+			catch(IOException io)
+			{
+				setCancellable(false);
+				Log.log(Log.ERROR,this,io);
+				String[] pp = { io.toString() };
+				VFSManager.error(browser,path1,"ioerror.directory-error",pp);
+			}
+		}
+
+		setCancellable(false);
+
+		loadInfo[0] = canonPath;
+		loadInfo[1] = directory;
+	}
 
 	//{{{ toString() method
 	public String toString()
