@@ -39,35 +39,36 @@ import java.io.IOException;
  */
 class ListDirectoryBrowserTask extends AbstractBrowserTask
 {
+	private Object[] loadInfo;
 	//{{{ BrowserIORequest constructor
 	/**
 	 * Creates a new browser I/O request.
 	 * @param browser The VFS browser instance
-	 * @param path1 The first path name to operate on
+	 * @param path The first path name to operate on
 	 * @param loadInfo A two-element array filled out by the request;
 	 * element 1 is the canonical path, element 2 is the file list.
 	 */
 	ListDirectoryBrowserTask(VFSBrowser browser,
-		Object session, VFS vfs, String path1,
+		Object session, VFS vfs, String path,
 		Object[] loadInfo, Runnable awtRunnable)
 	{
-		super(browser, session, vfs, path1, null, loadInfo, awtRunnable);
+		super(browser, session, vfs, path, awtRunnable);
 	}
 
 	@Override
 	public void _run()
 	{
-		String[] args = { path1 };
+		String[] args = { path };
 		setStatus(Editor.getProperty("vfs.status.listing-directory",args));
 
-		String canonPath = path1;
+		String canonPath = path;
 
 		VFSFile[] directory = null;
 		try
 		{
 			setCancellable(true);
 
-			canonPath = vfs._canonPath(session,path1,browser);
+			canonPath = vfs._canonPath(session,path,browser);
 			directory = vfs._listFiles(session,canonPath,browser);
 		}
 		catch(IOException io)
@@ -75,7 +76,7 @@ class ListDirectoryBrowserTask extends AbstractBrowserTask
 			setCancellable(false);
 			Log.log(Log.ERROR,this,io);
 			String[] pp = { io.toString() };
-			VFSManager.error(browser,path1,"ioerror.directory-error",pp);
+			VFSManager.error(browser,path,"ioerror.directory-error",pp);
 		}
 		finally
 		{
@@ -88,7 +89,7 @@ class ListDirectoryBrowserTask extends AbstractBrowserTask
 				setCancellable(false);
 				Log.log(Log.ERROR,this,io);
 				String[] pp = { io.toString() };
-				VFSManager.error(browser,path1,"ioerror.directory-error",pp);
+				VFSManager.error(browser,path,"ioerror.directory-error",pp);
 			}
 		}
 
@@ -102,8 +103,7 @@ class ListDirectoryBrowserTask extends AbstractBrowserTask
 	public String toString()
 	{
 		return getClass().getName() + "[type=LIST_DIRECTORY"
-			+ ",vfs=" + vfs + ",path1=" + path1
-			+ ",path2=" + path2 + "]";
+			+ ",vfs=" + vfs + ",pat=" + path + ']';
 	} //}}}
 
 	//{{{ Private members

@@ -695,22 +695,42 @@ public class VFSBrowser extends JPanel implements DefaultFocusComponent,
 		if(!startRequest())
 			return;
 
+		final CountDownLatch latch = new CountDownLatch(files.length);
 		for(int i = 0; i < files.length; i++)
 		{
 			Object session = vfs.createVFSSession(files[i].getDeletePath(),this);
 			if(session == null)
 				continue;
 
-			VFSManager.runInWorkThread(new BrowserIORequest(
-				BrowserIORequest.DELETE,this,
-				session,vfs,files[i].getDeletePath(),
-				null,null));
+			final Task task = new DeleteBrowserTask(
+					this, session, vfs, files[i].getDeletePath());
+			TaskManager.instance.addTaskListener(new TaskAdapter()
+			{
+				@Override
+				public void done(Task t)
+				{
+					if (task == t)
+					{
+						latch.countDown();
+						TaskManager.instance.removeTaskListener(this);
+					}
+				}
+			});
+			ThreadUtilities.runInBackground(task);
 		}
 
-		// Do not change this until all VFS Browser tasks are
-		// done in ThreadUtilities
-		VFSManager.runInAWTThread(new Runnable()
+		try
 		{
+			latch.await();
+		}
+		catch (InterruptedException e)
+		{
+			Log.log(Log.ERROR, this, e, e);
+		}
+
+		EventQueue.invokeLater(new Runnable()
+		{
+			@Override
 			public void run()
 			{
 				endRequest();
@@ -739,19 +759,17 @@ public class VFSBrowser extends JPanel implements DefaultFocusComponent,
 		if(!startRequest())
 			return;
 
-		VFSManager.runInWorkThread(new BrowserIORequest(
-			BrowserIORequest.RENAME,this,
-			session,vfs,from,to,null));
-
-		// Do not change this until all VFS Browser tasks are
-		// done in ThreadUtilities
-		VFSManager.runInAWTThread(new Runnable()
+		Runnable delatedAWT = new Runnable()
 		{
+			@Override
 			public void run()
 			{
 				endRequest();
 			}
-		});
+		};
+		Task renameTask = new RenameBrowserTask(
+			this, session, vfs, to, from, delatedAWT);
+		ThreadUtilities.runInBackground(renameTask);
 	} //}}}
 
 	//{{{ rename() method
@@ -774,19 +792,17 @@ public class VFSBrowser extends JPanel implements DefaultFocusComponent,
 		if(!startRequest())
 			return;
 
-		VFSManager.runInWorkThread(new BrowserIORequest(
-			BrowserIORequest.RENAME,this,
-			session,vfs,from,to,null));
-
-		// Do not change this until all VFS Browser tasks are
-		// done in ThreadUtilities
-		VFSManager.runInAWTThread(new Runnable()
+		Runnable delayedAWT = new Runnable()
 		{
+			@Override
 			public void run()
 			{
 				endRequest();
 			}
-		});
+		};
+		Task task = new RenameBrowserTask(
+			this, session, vfs, to, from, delayedAWT);
+		ThreadUtilities.runInBackground(task);
 	} //}}}		
 
 	//{{{ mkdir() method
@@ -823,14 +839,9 @@ public class VFSBrowser extends JPanel implements DefaultFocusComponent,
 		if(!startRequest())
 			return;
 
-		VFSManager.runInWorkThread(new BrowserIORequest(
-			BrowserIORequest.MKDIR,this,
-			session,vfs,newDirectory,null,null));
-
-		// Do not change this until all VFS Browser tasks are
-		// done in ThreadUtilities
-		VFSManager.runInAWTThread(new Runnable()
+		Runnable runnable = new Runnable()
 		{
+			@Override
 			public void run()
 			{
 				endRequest();
